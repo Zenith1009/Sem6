@@ -1,0 +1,8 @@
+START 1000
+LXI H,1000
+MVI A,0
+LOOP INR A
+     DCR M
+     JNZ LOOP
+     HLT
+END
