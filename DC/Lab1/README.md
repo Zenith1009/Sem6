@@ -1,46 +1,193 @@
-# Distributed Computing — Assignment 1 Reference
+# Distributed Computing (CS332) | Assignment 1
+## **Linux/Unix Commands**
 
-This guide summarizes what each required Linux/Unix command does, plus common options you can cite in a viva. Commands are grouped by category and assume a Debian/Ubuntu-like system (adjust package manager flags for other distros).
+---
 
-## Basic commands
-- **ls** — list directory contents. Flags: `-l` (long list), `-a` (hidden), `-h` (human sizes), `-t` (time sort), `-R` (recursive).
-- **date** — show/set system date. Flags: `+%F` (YYYY-MM-DD), `+%T` (HH:MM:SS), `-u` (UTC), `-R` (RFC 2822), `-Iseconds` (ISO-8601 with seconds).
-- **help** — shell built-in help for Bash built-ins (e.g., `help cd`). Flags: `-m` (more verbose help), `-s` (short synopsis).
-- **info** — read GNU Info manuals. Usage: `info coreutils ls`, navigation with `n`/`p`.
-- **man** — read manual pages. Flags: `-k` (keyword search), `-f` (whatis), section numbers (e.g., `man 5 passwd`).
-- **who** — show logged-in users. Flags: `-a` (all details), `-b` (last boot), `-H` (headers).
-- **pwd** — print working directory. Flags: `-L` (logical, default), `-P` (physical, resolves symlinks).
-- **cat** — concatenate/print files. Flags: `-n` (number lines), `-b` (number non-blank), `-A` (show control chars), `-E` (show line ends), `-s` (squeeze blank lines).
-- **more** — pager to view text one screen at a time. Flags: `-d` (helpful prompts), `-c` (paint from top), `-p` (clear-and-paint), `+n` (start at line n).
-- **mv** — move/rename files. Flags: `-i` (prompt), `-n` (no overwrite), `-v` (verbose), `-f` (force), `-u` (update if newer).
-- **rm** — remove files. Flags: `-i` (prompt), `-r`/`-R` (recursive), `-f` (force), `-v` (verbose).
-- **chmod** — change permissions. Modes: symbolic (`u+rx`, `g-w`, `o=r`) or octal (`755`). Flags: `-R` (recursive), `--reference=FILE` (copy perms).
-- **whoami** — print current user name.
-- **logout** — exit a login shell.
-- **wc** — word/line/byte counts. Flags: `-l` (lines), `-w` (words), `-c` (bytes), `-m` (chars), `-L` (max line length).
-- **grep** — search patterns. Flags: `-i` (ignore case), `-r` (recursive), `-n` (line numbers), `-E` (extended regex), `-v` (invert match), `-A/-B/-C` (context).
-- **sort** — sort lines. Flags: `-n` (numeric), `-r` (reverse), `-k` (key/field), `-u` (unique), `-t` (delimiter), `-h` (human numbers).
-- **mkdir** — make directories. Flags: `-p` (parents), `-v` (verbose), `-m` (mode).
-- **rmdir** — remove empty directories. Flags: `-p` (parents), `-v` (verbose).
-- **cd** — change directory. Options: `cd -` (previous), `cd ~` (home), `cd ..` (parent), `CDPATH` environment for search paths.
-- **tail** — view file end. Flags: `-n` (lines), `-f` (follow), `-c` (bytes), `-F` (follow with reopen on rotate).
-- **cmp** — byte-wise compare two files. Flags: `-l` (show byte diffs), `-s` (silent status), `-n N` (compare first N bytes).
-- **diff** — line-wise diff. Flags: `-u` (unified), `-r` (recursive), `-q` (brief), `-y` (side-by-side), `--color=auto`.
-- **cp** — copy files. Flags: `-r`/`-R` (recursive), `-p` (preserve mode/owner/timestamps), `-a` (archive = -p -d -r), `-u` (only if newer), `-i` (prompt), `-v` (verbose).
-- **clear** — clear terminal screen.
-- **df** — filesystem disk usage. Flags: `-h` (human), `-T` (type), `-i` (inodes), `-P` (POSIX format), `--total` (summary).
-- **du** — per-directory disk usage. Flags: `-h` (human), `-s` (summary), `-d N` (depth), `-c` (grand total), `--apparent-size`.
-- **uname** — system info. Flags: `-a` (all), `-r` (kernel release), `-s` (kernel name), `-m` (machine), `-n` (nodename).
-- **apt-get** — Debian package tool. Subcommands: `update`, `upgrade`, `install pkg`, `remove pkg`, `autoremove`, `clean`. Flags: `-y` (assume yes), `-s` (simulate), `--download-only`.
-- **find** — search filesystem. Flags: `-name/-iname`, `-type f/d`, `-mtime/-mmin`, `-size`, `-maxdepth`, `-exec ... {} \;`, `-print0` (for xargs -0).
-- **wget** — non-interactive downloader. Flags: `-O file` (output), `-c` (continue), `-r` (recursive), `-l N` (depth), `--limit-rate`, `--user`/`--password` (auth).
-- **top** — interactive process monitor. Useful keys: `P` (sort CPU), `M` (sort memory), `k` (kill), `r` (renice), `1` (per-CPU), `q` (quit). Options: `-b` (batch), `-n` (iterations).
-- **mpstat** (listed as mpstate) — per-CPU statistics from sysstat. Flags: `-P ALL` (all CPUs), `interval count` (sampling), `-u` (CPU usage), `-I SUM` (interrupts).
-- **netstat** — network connections/routes. Flags: `-t` (TCP), `-u` (UDP), `-l` (listening), `-p` (process), `-n` (numeric), `-r` (routes), `-s` (stats).
-- **sar** — system activity report (sysstat). Flags: `-u` (CPU), `-r` (memory), `-n DEV` (net I/O), `-d` (disks), `interval count` sampling.
-- **chown** — change file owner/group. Usage: `chown user file`, `chown user:group file`, flags: `-R` (recursive), `--reference=FILE`.
+**Student Name :** *Naishadh Rana* <br>
+**Roll. No :** U23CS014
 
-## Process-related commands
-- **ps** — snapshot processes. Flags: `aux` (BSD style all), `-ef` (full format), `-o pid,cmd` (custom columns), `--sort=-%cpu`.
-- **kill** — send signals by PID. Signals: `-15` (TERM), `-9` (KILL), `-HUP`, `-INT`. Flag: `-l` (list signals), `-s SIG` (name), `-- -1234` (negative for process groups).
-- **Background processing (&)** — append `&` to run in background. Use `jobs` to list, `fg %1` to foreground, `bg %1` to resume stopped jobs.
+---
+
+---
+
+## 1. File & Directory Operations
+
+| Command | Purpose | Key Flags |
+|---------|---------|-----------|
+| `ls` | List directory contents | `-l` (long), `-a` (hidden), `-h` (human sizes), `-R` (recursive) |
+| `cd` | Change directory | `cd -` (previous), `cd ~` (home), `cd ..` (parent) |
+| `pwd` | Print working directory | `-P` (physical, resolves symlinks) |
+| `mkdir` | Create directory | `-p` (create parents), `-m` (set mode) |
+| `rmdir` | Remove empty directory | `-p` (remove parents too) |
+| `cp` | Copy files | `-r` (recursive), `-p` (preserve attributes), `-i` (prompt) |
+| `mv` | Move/rename files | `-i` (prompt), `-n` (no overwrite), `-u` (update if newer) |
+| `rm` | Remove files | `-r` (recursive), `-f` (force), `-i` (prompt) |
+| `cat` | Display file contents | `-n` (number lines), `-A` (show control chars) |
+| `more` | Pager (one screen at a time) | `-d` (helpful prompts), `+n` (start at line n) |
+| `tail` | View end of file | `-n` (lines), `-f` (follow live) |
+
+### Viva Prep
+- **Q: Difference between `rm` and `rmdir`?**  
+  A: `rmdir` removes only empty directories; `rm -r` removes directories with contents.
+- **Q: What does `cp -a` do?**  
+  A: Archive mode = `-p -d -r` (preserve all attributes, copy symlinks as links, recursive).
+- **Q: How to go to previous directory?**  
+  A: `cd -`
+
+---
+
+## 2. File Permissions
+
+| Command | Purpose | Usage |
+|---------|---------|-------|
+| `chmod` | Change permissions | Symbolic: `chmod u+x file`, Octal: `chmod 755 file` |
+| `chown` | Change owner/group | `chown user:group file`, `-R` (recursive) |
+
+### Permission Bits
+```
+r = 4 (read)
+w = 2 (write)
+x = 1 (execute)
+
+Example: 755 = rwxr-xr-x (owner: all, group/others: read+execute)
+```
+
+### Viva Prep
+- **Q: What does `chmod 644` mean?**  
+  A: Owner can read/write (6), group and others can only read (4).
+- **Q: Difference between `chmod` and `chown`?**  
+  A: `chmod` changes permissions (rwx); `chown` changes ownership (user/group).
+
+---
+
+## 3. Text Processing
+
+| Command | Purpose | Key Flags |
+|---------|---------|-----------|
+| `wc` | Count lines/words/bytes | `-l` (lines), `-w` (words), `-c` (bytes) |
+| `grep` | Search patterns | `-i` (ignore case), `-r` (recursive), `-n` (line numbers), `-v` (invert) |
+| `sort` | Sort lines | `-n` (numeric), `-r` (reverse), `-u` (unique) |
+| `diff` | Compare files line by line | `-u` (unified), `-q` (brief) |
+| `cmp` | Compare files byte by byte | `-s` (silent, exit status only) |
+
+### Viva Prep
+- **Q: Difference between `diff` and `cmp`?**  
+  A: `diff` compares line-by-line (text); `cmp` compares byte-by-byte (binary).
+- **Q: How to count only lines in a file?**  
+  A: `wc -l filename`
+- **Q: How to search recursively for a pattern?**  
+  A: `grep -r "pattern" directory/`
+
+---
+
+## 4. System Information
+
+| Command | Purpose | Key Flags |
+|---------|---------|-----------|
+| `uname` | System/kernel info | `-a` (all), `-r` (kernel release), `-m` (machine) |
+| `whoami` | Print current username | — |
+| `who` | Show logged-in users | `-a` (all details), `-b` (last boot) |
+| `date` | Show/set date/time | `+%F` (YYYY-MM-DD), `+%T` (HH:MM:SS), `-u` (UTC) |
+| `df` | Disk space usage | `-h` (human readable), `-T` (filesystem type) |
+| `du` | Directory disk usage | `-h` (human), `-s` (summary), `-d N` (depth) |
+
+### Viva Prep
+- **Q: Difference between `df` and `du`?**  
+  A: `df` shows filesystem-level usage; `du` shows per-directory usage.
+- **Q: How to get kernel version?**  
+  A: `uname -r`
+
+---
+
+## 5. Process Management
+
+| Command | Purpose | Key Flags |
+|---------|---------|-----------|
+| `ps` | Snapshot of processes | `aux` (all users), `-ef` (full format), `-o` (custom columns) |
+| `top` | Interactive process monitor | `P` (sort by CPU), `M` (sort by memory), `k` (kill) |
+| `kill` | Send signal to process | `-9` (SIGKILL), `-15` (SIGTERM), `-l` (list signals) |
+| `&` | Run command in background | `command &`, use `jobs` to list, `fg` to foreground |
+
+### Viva Prep
+- **Q: Difference between `kill -9` and `kill -15`?**  
+  A: `-15` (TERM) asks process to terminate gracefully; `-9` (KILL) forces immediate termination.
+- **Q: How to see all processes?**  
+  A: `ps aux` or `ps -ef`
+- **Q: How to run a process in background?**  
+  A: Append `&` to the command (e.g., `./script.sh &`)
+
+---
+
+## 6. Network & Monitoring
+
+| Command | Purpose | Key Flags |
+|---------|---------|-----------|
+| `netstat` | Network connections | `-t` (TCP), `-u` (UDP), `-l` (listening), `-p` (process), `-n` (numeric) |
+| `wget` | Download files | `-O` (output file), `-c` (continue), `-r` (recursive) |
+| `sar` | System activity report | `-u` (CPU), `-r` (memory), `-n DEV` (network) |
+| `mpstat` | Per-CPU statistics | `-P ALL` (all CPUs) |
+
+### Viva Prep
+- **Q: How to see listening ports?**  
+  A: `netstat -tuln`
+- **Q: How to resume a download?**  
+  A: `wget -c URL`
+
+---
+
+## 7. Help & Documentation
+
+| Command | Purpose | Usage |
+|---------|---------|-------|
+| `man` | Manual pages | `man ls`, `man -k keyword` (search) |
+| `info` | GNU Info docs | `info coreutils` |
+| `help` | Bash built-in help | `help cd` |
+
+### Viva Prep
+- **Q: Difference between `man` and `info`?**  
+  A: `man` shows traditional Unix manuals; `info` shows GNU hypertext documentation (more detailed for GNU tools).
+
+---
+
+## 8. Miscellaneous
+
+| Command | Purpose |
+|---------|---------|
+| `clear` | Clear terminal screen |
+| `logout` | Exit login shell |
+| `find` | Search filesystem (`find . -name "*.txt"`) |
+| `apt-get` | Package manager (Debian/Ubuntu) |
+
+### Find Examples
+```bash
+find . -name "*.java"           # Find by name
+find . -type d                  # Find directories only
+find . -mtime -7                # Modified in last 7 days
+find . -size +10M               # Larger than 10MB
+```
+
+---
+
+## Quick Reference: Common Tasks
+
+| Task | Command |
+|------|---------|
+| List all files including hidden | `ls -la` |
+| Copy directory recursively | `cp -r src/ dest/` |
+| Delete directory with contents | `rm -rf dirname/` |
+| Make file executable | `chmod +x script.sh` |
+| Find large files | `find . -size +100M` |
+| Check disk space | `df -h` |
+| Kill process by PID | `kill -9 1234` |
+| Download file | `wget URL` |
+| Search in files | `grep -r "text" .` |
+
+---
+
+## Key Takeaways
+1. Use `-h` flag for human-readable sizes (`df -h`, `du -h`, `ls -lh`).
+2. Use `-r` or `-R` for recursive operations on directories.
+3. Use `-i` flag for interactive prompts before destructive operations.
+4. Permissions: read=4, write=2, execute=1; combine for octal (e.g., 755).
+5. Signals: SIGTERM (15) = graceful stop, SIGKILL (9) = force kill.
+6. Use `man command` to learn any command's options.
