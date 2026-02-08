@@ -1,0 +1,67 @@
+---
+geometry: margin=0.75in
+fontsize: 11pt
+mainfont: JetBrains Mono
+monofont: JetBrains Mono
+
+header-includes:
+  - \usepackage{xcolor}
+  - \setlength{\parindent}{0pt}
+  - \setlength{\parskip}{0.6em}
+  - \definecolor{inlinebg}{HTML}{44475a}
+  - \definecolor{inlinefg}{HTML}{f8f8f2}
+  - \let\oldtexttt\texttt
+  - \renewcommand{\texttt}[1]{\colorbox{inlinebg}{\oldtexttt{\textcolor{inlinefg}{#1}}}}
+---
+
+
+---
+geometry: margin=0.75in
+fontsize: 11pt
+
+mainfont: JetBrains Mono
+monofont: JetBrains Mono
+
+header-includes:
+  - \usepackage{xcolor}
+  - \usepackage{mdframed}
+  - \usepackage{fvextra}
+  - \usepackage{etoolbox}
+  - \usepackage{microtype}
+  - \usepackage{setspace}
+  - \usepackage{titlesec}
+
+  - \renewenvironment{Shaded}{}{}
+
+  - \onehalfspacing
+  - \setlength{\parindent}{0pt}
+  - \setlength{\parskip}{0.6em}
+
+  - \definecolor{codebg}{HTML}{282a36}
+  - \definecolor{codeborder}{HTML}{44475a}
+  - \definecolor{inlinebg}{HTML}{44475a}
+  - \definecolor{inlinefg}{HTML}{f8f8f2}
+
+  - \let\oldtexttt\texttt
+  - \renewcommand{\texttt}[1]{\colorbox{inlinebg}{\oldtexttt{\textcolor{inlinefg}{#1}}}}
+
+  - \fvset{breaklines=true, fontsize=\small, frame=none}
+
+  - \BeforeBeginEnvironment{Highlighting}{
+      \begin{mdframed}[
+        backgroundcolor=codebg,
+        linecolor=codeborder,
+        linewidth=0.6pt,
+        roundcorner=6pt,
+        innerleftmargin=10pt,
+        innerrightmargin=10pt,
+        innertopmargin=8pt,
+        innerbottommargin=8pt
+      ]
+    }
+
+  - \AfterEndEnvironment{Highlighting}{\end{mdframed}}
+
+  - \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+  - \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+---
