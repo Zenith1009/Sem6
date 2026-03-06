@@ -1,0 +1,20 @@
+services:
+  rmi-server:
+    build: ./server
+    container_name: dc-lab6-rmi-server
+    working_dir: /app
+    environment:
+      - RMI_HOSTNAME=rmi-server
+    ports:
+      - "1099:1099"
+      - "2001:2001"
+
+  rmi-client:
+    build: ./client
+    container_name: dc-lab6-rmi-client
+    working_dir: /app
+    depends_on:
+      - rmi-server
+    stdin_open: true
+    tty: true
+    command: ["bash", "-lc", "sleep infinity"]
