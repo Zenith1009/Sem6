@@ -226,6 +226,7 @@ Common Mistakes Summary
 
 ### Broad Classification (2–5 Marks)
 Examiners often ask for a quick categorization before diving deep. Always start your answers with this three-tier classification to show structural clarity:
+
 1. **Distributed Computing Systems**: Focus on sharing computational power for massive, compute-intensive tasks (e.g., Clusters, Grids, Clouds).
 2. **Distributed Information Systems**: Focus on data sharing, interoperability, and transactions across autonomous sources (e.g., Enterprise Application Integration).
 3. **Pervasive Systems**: Focus on seamless integration of computation into the physical environment via sensors and mobile devices.
@@ -238,10 +239,11 @@ This is a guaranteed long-answer question. You will likely be asked to different
 
 #### 1. Parallel Processing Models (Foundation for 5 Marks)
 Before explaining clusters, clearly define the base hardware models.
-*   **Multiprocessor Systems**: Multiple CPUs sharing a single physical memory.
-*   **Multicomputer Systems**: Independent computers, each with private memory, communicating over a network.
-*   *Note on Distributed Shared Memory (DSM)*: It was an attempt to create a global virtual address space over multicomputers but failed due to high communication latency and false sharing.
-*   **Diagram Strategy**: Draw two side-by-side blocks. For multiprocessors, draw Processors (P) connecting to a shared Interconnect, which connects to shared Memory (M) blocks. For multicomputers, bind one P and one M together, then connect these combined units to the Interconnect.
+
+-   **Multiprocessor Systems**: Multiple CPUs sharing a single physical memory.
+-   **Multicomputer Systems**: Independent computers, each with private memory, communicating over a network.
+-   *Note on Distributed Shared Memory (DSM)*: It was an attempt to create a global virtual address space over multicomputers but failed due to high communication latency and false sharing.
+-   **Diagram Strategy**: Draw two side-by-side blocks. For multiprocessors, draw Processors (P) connecting to a shared Interconnect, which connects to shared Memory (M) blocks. For multicomputers, bind one P and one M together, then connect these combined units to the Interconnect.
 
 #### 2. Cluster Computing
 *   **Definition**: A combination of multiple independent computers built using commodity PCs and high-speed LANs, designed for parallel execution of compute-intensive programs.
@@ -316,9 +318,11 @@ This topic is highly scoring if you use the correct middleware terminology.
 This is a theoretical section. Focus on precise definitions and characteristics.
 
 #### 1. Core Concept
+
 Pervasive systems blur the separation between users and system components. Computation is seamlessly embedded into the environment, interacting via sensors and actuators.
 
 #### 2. Three Types of Pervasive Systems
+
 *   **Ubiquitous Computing**: Invisible computing integrated into everyday activities.
 *   **Mobile Computing**: Systems supporting mobility via wireless disruption-tolerant networking.
 *   **Sensor Networks**: Large collections of battery-powered, resource-constrained nodes used for environmental monitoring.
@@ -332,8 +336,10 @@ Pervasive systems blur the separation between users and system components. Compu
 *   **Mnemonic**: **DUC AI** (Distribution, Unobtrusive, Context, Autonomy, Intelligence).
 
 #### 4. Sensor Network Execution Strategy
+
 Instead of sending all raw data to a central operator (which drains battery), sensor networks use **In-Network Data Processing**. Nodes aggregate and process data locally, only sending the final answers/queries to the operator to save energy.
-*   **Diagram Strategy**: Draw two clouds of sensors. In "Bad Design", draw arrows from all sensors to the operator. In "Good Design (In-Network)", draw cylinders inside the cloud representing local processing, and only one arrow pointing out to the operator labelled "Answers".
+
+-   **Diagram Strategy**: Draw two clouds of sensors. In "Bad Design", draw arrows from all sensors to the operator. In "Good Design (In-Network)", draw cylinders inside the cloud representing local processing, and only one arrow pointing out to the operator labelled "Answers".
 
 ---
 

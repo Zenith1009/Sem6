@@ -1,0 +1,30 @@
+services:
+  zmq-server:
+    build: ./server
+    container_name: dc-lab7-zmq-server
+    working_dir: /app
+    ports:
+      - "5555:5555"
+      - "5560:5560"
+      - "5561:5561"
+      - "5570:5570"
+      - "5581:5581"
+      - "5582:5582"
+      - "5583:5583"
+      - "5590:5590"
+      - "5592:5592"
+      - "5600:5600"
+      - "5601:5601"
+    stdin_open: true
+    tty: true
+    command: ["bash", "-lc", "sleep infinity"]
+
+  zmq-client:
+    build: ./client
+    container_name: dc-lab7-zmq-client
+    working_dir: /app
+    depends_on:
+      - zmq-server
+    stdin_open: true
+    tty: true
+    command: ["bash", "-lc", "sleep infinity"]

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+
+python3 -m pip install --quiet --disable-pip-version-check -r requirements.txt
+echo "Client dependencies installed."

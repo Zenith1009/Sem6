@@ -31,6 +31,22 @@ If I ask doubts, first explain conceptually, then explain how to write it in an 
 
 ```
 
+NbLM Chat Prompts:
+
+1. Theory Exam Preparation:
+```
+provide me with detailed study guide notes designed to understanding of the source material particularly for 30 mark theory exam preparation. 
+For every topic, you will:
+1. Provide structured notes.
+2. Clearly define important terminology using precise, exam-friendly language.
+3. Highlight frequently asked topics and high-weightage concepts.
+4. Mention where diagrams are necessary and draw them.
+5. Point out common mistakes that reduce marks.
+6. Add useful and easy to remember memory tricks and mnemonic techniques for points and properties. (Phrases make sense where the 1st letter of each word refers to one of the points)
+7. If possible, relate concepts to practical applications or real-world examples when possible, as this can help in better understanding and retention.
+No need to explain the whole source material in one reply, explain in sections and let me know where you stopped so i will continue from there
+```
+
 
 ### Useful Commands:
 
