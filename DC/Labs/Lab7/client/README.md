@@ -12,20 +12,20 @@ Client-side processes for Assignment 7:
 ## Build
 
 ```bash
-./build_client.sh
+python3 -m pip install --quiet --disable-pip-version-check -r requirements.txt
 ```
 
 ## Common Run Commands
 
 ```bash
-./run_q1_q2_client.sh tcp://localhost:5555 stop
-./run_q3_client.sh tcp://localhost:5560 5 client-A
-./run_q3_bad_client.sh tcp://localhost:5560
-./run_q4_subscriber.sh tcp://localhost:5570 TIME
-./run_q5_time_subscriber.sh
-./run_q5_random_subscriber.sh
-./run_q6_subscriber.sh tcp://localhost:5581,tcp://localhost:5582,tcp://localhost:5583 SPORTS
-./run_q7_q8_worker.sh tcp://localhost:5590 tcp://localhost:5592 worker-1
-./run_q9_worker.sh tcp://localhost:5600 tcp://localhost:5602,tcp://localhost:5603 s2-1 0.03
-./run_q9_aggregator.sh tcp://*:5602 agg-1 25
+python3 src/reqrep_q1_q2_client.py --endpoint tcp://localhost:5555 --stop-server
+python3 src/reqrep_q3_client.py --endpoint tcp://localhost:5560 --count 5 --name client-A
+python3 src/reqrep_q3_bad_client.py --endpoint tcp://localhost:5560
+python3 src/pubsub_q4_subscriber.py --endpoint tcp://localhost:5570 --tag TIME
+python3 src/pubsub_q5_time_subscriber.py --endpoint tcp://localhost:5570
+python3 src/pubsub_q5_random_subscriber.py --endpoint tcp://localhost:5570
+python3 src/pubsub_q6_dynamic_subscriber.py --endpoints tcp://localhost:5581,tcp://localhost:5582,tcp://localhost:5583 --topics SPORTS
+python3 src/pipeline_q7_q8_worker.py --input-endpoint tcp://localhost:5590 --collector-endpoint tcp://localhost:5592 --worker-id worker-1
+python3 src/pipeline_q9_stage2_worker.py --input-endpoint tcp://localhost:5600 --output-endpoints tcp://localhost:5602,tcp://localhost:5603 --worker-id s2-1 --process-delay 0.03
+python3 src/pipeline_q9_aggregator.py --bind tcp://*:5602 --name agg-1 --expected 25
 ```

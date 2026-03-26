@@ -29,7 +29,15 @@ python3 -c "import zmq; print('pyzmq installed:', zmq.__version__)"
 
 ## Local Run (without Docker)
 
-Open terminals in Lab7 root and run scripts from [server/](server/) and [client/](client/).
+Open terminals in Lab7 root and run commands from [server/](server/) and [client/](client/).
+
+One-time dependency setup:
+
+```bash
+cd server && python3 -m pip install --quiet --disable-pip-version-check -r requirements.txt
+cd ../client && python3 -m pip install --quiet --disable-pip-version-check -r requirements.txt
+cd ..
+```
 
 ### Q1-Q2 (REQ-REP transformation + counter + graceful stop)
 
@@ -37,14 +45,14 @@ Terminal 1:
 
 ```bash
 cd server
-./run_q1_q2_server.sh
+python3 src/reqrep_q1_q2_server.py --bind tcp://*:5555
 ```
 
 Terminal 2:
 
 ```bash
 cd client
-./run_q1_q2_client.sh tcp://localhost:5555 stop
+python3 src/reqrep_q1_q2_client.py --endpoint tcp://localhost:5555 --stop-server
 ```
 
 ### Q3 (multi-client fair system + strict REQ limitation demo)
@@ -53,42 +61,42 @@ Terminal 1 (broker):
 
 ```bash
 cd server
-./run_q3_broker.sh
+python3 src/reqrep_q3_broker.py --frontend-bind tcp://*:5560 --backend-bind tcp://*:5561
 ```
 
 Terminal 2 (worker 1):
 
 ```bash
 cd server
-./run_q3_worker.sh tcp://localhost:5561 worker-1
+python3 src/reqrep_q3_worker.py --backend-endpoint tcp://localhost:5561 --worker-id worker-1
 ```
 
 Terminal 3 (worker 2):
 
 ```bash
 cd server
-./run_q3_worker.sh tcp://localhost:5561 worker-2
+python3 src/reqrep_q3_worker.py --backend-endpoint tcp://localhost:5561 --worker-id worker-2
 ```
 
 Terminal 4 (normal client A):
 
 ```bash
 cd client
-./run_q3_client.sh tcp://localhost:5560 6 client-A
+python3 src/reqrep_q3_client.py --endpoint tcp://localhost:5560 --count 6 --name client-A
 ```
 
 Terminal 5 (normal client B):
 
 ```bash
 cd client
-./run_q3_client.sh tcp://localhost:5560 6 client-B
+python3 src/reqrep_q3_client.py --endpoint tcp://localhost:5560 --count 6 --name client-B
 ```
 
 Terminal 6 (bad REQ client for limitation):
 
 ```bash
 cd client
-./run_q3_bad_client.sh tcp://localhost:5560
+python3 src/reqrep_q3_bad_client.py --endpoint tcp://localhost:5560
 ```
 
 Expected: bad client shows REQ socket state error when sending another request before receiving reply.
@@ -99,28 +107,28 @@ Terminal 1 (publisher):
 
 ```bash
 cd server
-./run_q4_q5_publisher.sh
+python3 src/pubsub_q4_q5_publisher.py --bind tcp://*:5570 --interval 1.0
 ```
 
 Terminal 2 (Q4 single-tag subscriber):
 
 ```bash
 cd client
-./run_q4_subscriber.sh tcp://localhost:5570 TIME
+python3 src/pubsub_q4_subscriber.py --endpoint tcp://localhost:5570 --tag TIME
 ```
 
 Terminal 3 (Q5 TIME subscriber):
 
 ```bash
 cd client
-./run_q5_time_subscriber.sh
+python3 src/pubsub_q5_time_subscriber.py --endpoint tcp://localhost:5570
 ```
 
 Terminal 4 (Q5 RANDOM subscriber):
 
 ```bash
 cd client
-./run_q5_random_subscriber.sh
+python3 src/pubsub_q5_random_subscriber.py --endpoint tcp://localhost:5570
 ```
 
 Expected: each subscriber prints only subscribed tag messages.
@@ -131,28 +139,28 @@ Terminal 1:
 
 ```bash
 cd server
-./run_q6_publisher.sh SPORTS tcp://*:5581
+python3 src/pubsub_q6_publisher.py --category SPORTS --bind tcp://*:5581 --interval 1.0
 ```
 
 Terminal 2:
 
 ```bash
 cd server
-./run_q6_publisher.sh WEATHER tcp://*:5582
+python3 src/pubsub_q6_publisher.py --category WEATHER --bind tcp://*:5582 --interval 1.0
 ```
 
 Terminal 3:
 
 ```bash
 cd server
-./run_q6_publisher.sh FINANCE tcp://*:5583
+python3 src/pubsub_q6_publisher.py --category FINANCE --bind tcp://*:5583 --interval 1.0
 ```
 
 Terminal 4 (dynamic subscriber):
 
 ```bash
 cd client
-./run_q6_subscriber.sh tcp://localhost:5581,tcp://localhost:5582,tcp://localhost:5583 SPORTS
+python3 src/pubsub_q6_dynamic_subscriber.py --endpoints tcp://localhost:5581,tcp://localhost:5582,tcp://localhost:5583 --topics SPORTS
 ```
 
 Inside subscriber terminal, use commands:
@@ -171,35 +179,35 @@ Terminal 1 (collector):
 
 ```bash
 cd server
-./run_q8_collector.sh tcp://*:5592 20
+python3 src/pipeline_q8_collector.py --bind tcp://*:5592 --expected 20
 ```
 
 Terminal 2 (worker 1):
 
 ```bash
 cd client
-./run_q7_q8_worker.sh tcp://localhost:5590 tcp://localhost:5592 worker-1
+python3 src/pipeline_q7_q8_worker.py --input-endpoint tcp://localhost:5590 --collector-endpoint tcp://localhost:5592 --worker-id worker-1
 ```
 
 Terminal 3 (worker 2):
 
 ```bash
 cd client
-./run_q7_q8_worker.sh tcp://localhost:5590 tcp://localhost:5592 worker-2
+python3 src/pipeline_q7_q8_worker.py --input-endpoint tcp://localhost:5590 --collector-endpoint tcp://localhost:5592 --worker-id worker-2
 ```
 
 Terminal 4 (worker 3):
 
 ```bash
 cd client
-./run_q7_q8_worker.sh tcp://localhost:5590 tcp://localhost:5592 worker-3
+python3 src/pipeline_q7_q8_worker.py --input-endpoint tcp://localhost:5590 --collector-endpoint tcp://localhost:5592 --worker-id worker-3
 ```
 
 Terminal 5 (farmer):
 
 ```bash
 cd server
-./run_q7_q8_farmer.sh tcp://*:5590 20 0.05
+python3 src/pipeline_q7_q8_farmer.py --bind tcp://*:5590 --tasks 20 --delay 0.05
 ```
 
 Expected: workers display task/workload; collector shows total completion count.
@@ -210,35 +218,35 @@ Terminal 1 (aggregator 1):
 
 ```bash
 cd client
-./run_q9_aggregator.sh tcp://*:5602 agg-1 25
+python3 src/pipeline_q9_aggregator.py --bind tcp://*:5602 --name agg-1 --expected 25
 ```
 
 Terminal 2 (aggregator 2):
 
 ```bash
 cd client
-./run_q9_aggregator.sh tcp://*:5603 agg-2 25
+python3 src/pipeline_q9_aggregator.py --bind tcp://*:5603 --name agg-2 --expected 25
 ```
 
 Terminal 3 (stage-2 worker 1):
 
 ```bash
 cd client
-./run_q9_worker.sh tcp://localhost:5600 tcp://localhost:5602,tcp://localhost:5603 s2-1 0.03
+python3 src/pipeline_q9_stage2_worker.py --input-endpoint tcp://localhost:5600 --output-endpoints tcp://localhost:5602,tcp://localhost:5603 --worker-id s2-1 --process-delay 0.03
 ```
 
 Terminal 4 (stage-2 worker 2):
 
 ```bash
 cd client
-./run_q9_worker.sh tcp://localhost:5600 tcp://localhost:5602,tcp://localhost:5603 s2-2 0.03
+python3 src/pipeline_q9_stage2_worker.py --input-endpoint tcp://localhost:5600 --output-endpoints tcp://localhost:5602,tcp://localhost:5603 --worker-id s2-2 --process-delay 0.03
 ```
 
 Terminal 5 (generator):
 
 ```bash
 cd server
-./run_q9_generator.sh tcp://*:5600 50 0.01
+python3 src/pipeline_q9_generator.py --bind tcp://*:5600 --tasks 50 --delay 0.01
 ```
 
 Vary number of workers/aggregators and compare per-aggregator throughput printed by each aggregator.

@@ -12,18 +12,18 @@ Server-side processes for Assignment 7:
 ## Build
 
 ```bash
-./build_server.sh
+python3 -m pip install --quiet --disable-pip-version-check -r requirements.txt
 ```
 
 ## Common Run Commands
 
 ```bash
-./run_q1_q2_server.sh
-./run_q3_broker.sh
-./run_q3_worker.sh tcp://localhost:5561 worker-1
-./run_q4_q5_publisher.sh
-./run_q6_publisher.sh SPORTS tcp://*:5581
-./run_q7_q8_farmer.sh tcp://*:5590 20 0.05
-./run_q8_collector.sh tcp://*:5592 20
-./run_q9_generator.sh tcp://*:5600 50 0.01
+python3 src/reqrep_q1_q2_server.py --bind tcp://*:5555
+python3 src/reqrep_q3_broker.py --frontend-bind tcp://*:5560 --backend-bind tcp://*:5561
+python3 src/reqrep_q3_worker.py --backend-endpoint tcp://localhost:5561 --worker-id worker-1
+python3 src/pubsub_q4_q5_publisher.py --bind tcp://*:5570 --interval 1.0
+python3 src/pubsub_q6_publisher.py --category SPORTS --bind tcp://*:5581 --interval 1.0
+python3 src/pipeline_q7_q8_farmer.py --bind tcp://*:5590 --tasks 20 --delay 0.05
+python3 src/pipeline_q8_collector.py --bind tcp://*:5592 --expected 20
+python3 src/pipeline_q9_generator.py --bind tcp://*:5600 --tasks 50 --delay 0.01
 ```
