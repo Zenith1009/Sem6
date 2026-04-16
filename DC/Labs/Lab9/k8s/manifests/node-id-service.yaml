@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-id-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: node-id
+  ports:
+    - port: 80
+      targetPort: 8000

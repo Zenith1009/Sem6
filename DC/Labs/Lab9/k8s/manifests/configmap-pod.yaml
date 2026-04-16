@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-id-pod
+  labels:
+    app: node-id
+spec:
+  containers:
+    - name: node-id-app
+      image: lab9-node-id-app:1.0
+      imagePullPolicy: Never
+      ports:
+        - containerPort: 8000
+      envFrom:
+        - configMapRef:
+            name: node-config

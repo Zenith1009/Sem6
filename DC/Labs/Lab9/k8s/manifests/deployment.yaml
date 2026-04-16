@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-id-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-id
+  template:
+    metadata:
+      labels:
+        app: node-id
+    spec:
+      containers:
+        - name: node-id-app
+          image: lab9-node-id-app:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: node-config
