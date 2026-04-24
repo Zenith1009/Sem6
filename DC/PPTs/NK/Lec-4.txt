@@ -1,0 +1,1717 @@
+                              Lec 4: Communication
+
+                                  Naveen Kumar
+
+                                   Assistant Professor
+                                     SVNIT, Surat
+
+
+                                 February 15, 2026
+
+
+
+
+Naveen Kumar (SVNIT, Surat)        Distributed Computing   February 15, 2026   1 / 99
+Table of Contents
+
+
+
+1   Introduction
+
+
+2   Foundations
+
+
+3   Remote Procedure Call
+
+
+4   Message Oriented Communication
+
+
+5   Summary
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   2 / 99
+Table of Contents
+
+
+
+1   Introduction
+
+
+2   Foundations
+
+
+3   Remote Procedure Call
+
+
+4   Message Oriented Communication
+
+
+5   Summary
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   3 / 99
+Communication in Distributed Systems
+
+
+     Communication is the foundation of every distributed system
+     Processes execute on different machines and must exchange
+     information
+     Early systems relied on low-level message passing
+     Message passing is:
+            Harder to program than shared memory
+            Error-prone in large, unreliable networks (e.g., the Internet)
+     Modern systems involve thousands to millions of processes
+     Hence, scalable systems require higher-level communication
+     abstractions
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing        February 15, 2026   4 / 99
+What This Chapter Covers
+
+
+     Protocols and Layering
+            Rules governing communication between processes
+            Layering as a tool for managing complexity
+     Remote Procedure Call (RPC)
+            Makes remote interaction resemble local procedure calls
+            Well suited for client–server architectures
+            Transparency versus performance trade-offs
+     Message-Oriented Middleware (MOM)
+            Asynchronous, message-based communication
+            Supports loose coupling beyond client–server models
+     Multicasting
+            Communication with multiple receivers
+            Deterministic (trees) and probabilistic (gossip, flooding) techniques
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing        February 15, 2026   5 / 99
+Table of Contents
+
+
+
+1   Introduction
+
+
+2   Foundations
+
+
+3   Remote Procedure Call
+
+
+4   Message Oriented Communication
+
+
+5   Summary
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   6 / 99
+Why Communication Matters
+
+
+
+
+     Distributed systems have no shared memory
+     All coordination is achieved through message passing
+     Correct communication requires agreement on:
+            Message meaning
+            Message representation
+            Rules governing message exchange (protocols)
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)     Distributed Computing     February 15, 2026   7 / 99
+Process-to-Process Communication
+
+
+
+  1   Process P constructs a message in its address space
+  2   P invokes an operating-system communication primitive
+  3   The OS transmits the message across the network
+  4   The message arrives at the machine hosting process Q
+  5   Process Q receives and interprets the message
+
+Key requirement: Sender and receiver must interpret the same bit
+pattern identically.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing    February 15, 2026   8 / 99
+Communication Protocols
+
+
+
+
+     A protocol precisely defines:
+            Message format
+            Message contents
+            Message semantics
+     Protocols specify the services provided to higher layers
+     Successful communication requires compatible protocols at both ends
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)    Distributed Computing     February 15, 2026   9 / 99
+Types of Communication Services
+
+
+Connection-oriented
+     Explicit setup before data transfer
+     Parameters negotiated during setup
+     Explicit connection termination
+     Example: Telephone system
+
+Connectionless
+     No setup phase
+     Independent message transmission
+     Example: Postal mail, IP packets
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   10 / 99
+Why Layered Communication?
+
+
+
+     Communication involves many distinct concerns:
+            Physical transmission
+            Error detection and recovery
+            Routing and congestion control
+            Reliability and flow control
+            Data representation
+     Layering decomposes complexity
+     Each layer solves a well-defined problem
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   11 / 99
+The OSI Reference Model
+
+
+
+
+     Proposed by ISO as a standard reference model
+     Known as the OSI model
+     Designed to enable communication between open systems
+     OSI protocols are rarely used today
+     OSI layering remains conceptually essential
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   12 / 99
+Open Systems
+
+
+
+
+     An open system can interoperate with other open systems
+     Based on standardized protocols
+     Standards define:
+            Message format
+            Message content
+            Message interpretation
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)         Distributed Computing   February 15, 2026   13 / 99
+The OSI Reference Model: Layers and Responsibilities
+
+
+
+     Network communication structured into seven layers:
+        1   Physical — raw bit transmission
+        2   Data Link — framing, error detection, retransmission
+        3   Network — routing and congestion control
+        4   Transport — reliability, ordering, flow control
+        5   Session — dialog control, synchronization
+        6   Presentation — data representation and encoding
+        7   Application — network applications and protocols
+     Transport protocols:
+            TCP: reliable, ordered, connection-oriented
+            UDP: connectionless, unreliable, lightweight
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing      February 15, 2026   14 / 99
+Message Encapsulation
+
+
+
+
+             Figure 1: Layers, interfaces, and protocols in the OSI model
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing        February 15, 2026   15 / 99
+Protocol Stacks
+
+
+
+
+     A protocol stack is an ordered collection of protocols
+     OSI is a conceptual reference model
+     TCP/IP is a practical protocol suite
+     Real systems often merge or omit OSI layers
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing     February 15, 2026   16 / 99
+Middleware
+
+
+
+     Logically positioned above the transport layer
+     Provides application-independent services
+     Hides heterogeneity and distribution
+     Examples:
+            Naming (DNS)
+            Authentication
+            Distributed transactions
+            Distributed locking
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing   February 15, 2026   17 / 99
+Adapted Communication Model
+
+
+
+
+       Figure 2: An adapted reference model for networked communication
+
+
+
+ Naveen Kumar (SVNIT, Surat)    Distributed Computing     February 15, 2026   18 / 99
+Types of Communication
+
+
+
+     Communication classified by:
+            Persistence (message lifetime)
+            Synchronization (blocking behavior)
+     Persistent communication
+            Messages stored until delivery
+            Time-decoupled interaction
+     Transient communication
+            Messages exist only during execution
+            Lost on failure or receiver inactivity
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing   February 15, 2026   19 / 99
+Synchronous vs Asynchronous Communication
+
+
+
+
+Asynchronous
+     Sender continues immediately after sending
+
+Synchronous
+     Sender blocks until request is accepted, delivered, or processed
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing     February 15, 2026   20 / 99
+Middleware as Intermediary
+
+
+
+
+ Figure 3: Middleware as an intermediate service in application communication
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing       February 15, 2026   21 / 99
+Key Takeaways and Next Steps
+
+
+
+
+     Communication is central to distributed systems
+     Layering structures complexity
+     Middleware bridges transport and applications
+     Communication differs by persistence and synchronization
+
+     Next: Remote Procedure Call (RPC)
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   22 / 99
+Table of Contents
+
+
+
+1   Introduction
+
+
+2   Foundations
+
+
+3   Remote Procedure Call
+
+
+4   Message Oriented Communication
+
+
+5   Summary
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   23 / 99
+Motivation and Idea of RPC
+
+
+
+     Early distributed systems used explicit send and receive
+     Message passing exposes communication details
+     This violates access transparency
+     Programmers must manage:
+            Message construction and ordering
+            Error handling
+
+     RPC idea (Birrell & Nelson, 1980s):
+        Allow remote procedure calls to look like local calls
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   24 / 99
+What Is a Remote Procedure Call?
+
+
+
+
+     A process on machine A invokes a procedure on machine B
+     The client process blocks until the result is returned
+     Parameters are sent to the server
+     The procedure executes remotely
+     Results are returned to the client
+
+Goal: Remote calls should be indistinguishable from local calls.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing      February 15, 2026   25 / 99
+Why RPC Is Fundamentally Complex
+
+
+
+
+     Client and server execute in different address spaces
+     Parameters and results must be transferred across machines
+     Machines may differ in:
+            Architecture
+            Byte ordering
+            Data representation
+     One or both machines may crash
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   26 / 99
+Example: A Local Procedure Call
+
+
+
+newlist = append(data, dbList)
+     Single machine, single address space
+     append is linked into the executable
+     Call sequence:
+            Caller pushes parameter representations onto the stack
+            Control jumps to append
+            Return value placed in caller context
+     All memory addresses are meaningful to both caller and callee
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing       February 15, 2026   27 / 99
+Local Procedure Call Stack
+
+
+
+
+Figure 4: (a) Parameter passing in a local procedure call: the stack before the call to
+append. (b) The stack while the called procedure is active
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)         Distributed Computing          February 15, 2026     28 / 99
+Parameter Passing in Local Calls
+
+
+
+     Parameters are passed as representations, not abstractions
+     Call-by-value (e.g., data)
+            Actual value copied onto the stack
+            Callee works on a local copy
+            Modifications do not affect caller
+
+     Call-by-reference (e.g., dbList)
+            Memory address (pointer) is passed
+            Callee accesses the same object as caller
+            Modifications directly affect caller state
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing   February 15, 2026   29 / 99
+Why Local Call Semantics Do Not Carry Over to RPC
+
+
+
+     Pointers are only meaningful within one address space
+     A memory address on machine A is meaningless on machine B
+     Call-by-reference cannot be preserved directly
+            Must be replaced by copying data
+            Changes semantics compared to local calls
+
+     Leads to fundamental RPC issues:
+            Parameter marshaling
+            Copy vs reference semantics
+            Consistency and failure handling
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   30 / 99
+Client and Server Stubs
+
+
+
+     RPC replaces the real procedure with a client stub
+     Client stub:
+            Packs parameters into a message
+            Sends request to server
+            Waits for reply
+     Server stub:
+            Unpacks parameters
+            Calls local server procedure
+            Packs result and sends reply
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing   February 15, 2026   31 / 99
+RPC Architecture
+
+
+
+
+          Figure 5: The principle of RPC between a client and server program.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing         February 15, 2026   32 / 99
+Steps in a Remote Procedure Call
+ 1    The client procedure calls the client stub in the normal way
+ 2    The client stub builds a message and calls the local operating
+      system
+ 3    The client’s OS sends the message to the remote OS
+ 4    The remote OS delivers the message to the server stub
+ 5    The server stub unpacks the parameters and calls the server
+      procedure
+ 6    The server executes the procedure and returns the result to the stub
+ 7    The server stub packs the result into a reply message and calls its
+      local OS
+ 8    The server’s OS sends the reply message to the client’s OS
+ 9    The client’s OS delivers the reply to the client stub
+ 10   The client stub unpacks the result and returns it to the client
+      procedure
+ Naveen Kumar (SVNIT, Surat)    Distributed Computing      February 15, 2026   33 / 99
+RPC Execution Steps
+
+
+
+
+Figure 6: The steps involved in calling a remote procedure doit(a,b). The return path for
+the result is not shown.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing          February 15, 2026   34 / 99
+RPC Code
+
+
+
+
+                   Figure 7: A simple RPC example for operation append
+
+
+
+ Naveen Kumar (SVNIT, Surat)         Distributed Computing       February 15, 2026   35 / 99
+Marshaling and Unmarshaling
+
+
+
+
+     Marshaling: The process of packaging procedure parameters into a
+     message format suitable for transmission.
+            Example: The client stub takes integers a and b and converts them
+            into a byte stream: [proc: "doit", val(a), val(b)].
+     Unmarshaling: The process of unpacking the message at the receiver
+     to store the data back into its original data types.
+            Example: The server stub receives the byte stream and extracts the
+            values to call the local Implementation of doit.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing       February 15, 2026   36 / 99
+Data Representation: Endianness
+
+
+     Problem: Different architectures store multibyte data (like integers)
+     differently in memory.
+     Big-Endian: Most significant byte (MSB) stored at the lowest
+     address (e.g., IBM, Sun Sparc).
+     Little-Endian: Least significant byte (LSB) stored at the lowest
+     address (e.g., Intel x86).
+     Example: The value 0x12345678
+            Big-Endian: [12][34][56][78]
+            Little-Endian: [78][56][34][12]
+     Solution: Convert to Network Byte Order (standardized as
+     Big-Endian) during marshaling.
+
+
+
+ Naveen Kumar (SVNIT, Surat)    Distributed Computing    February 15, 2026   37 / 99
+The Problem with Pointers
+
+
+
+
+     Isolated Address Spaces: A pointer is just a memory address (e.g.,
+     0x004F) valid only within the client’s process.
+     Meaningless Transfer: Passing 0x004F to a server is useless
+     because the server’s memory at that address contains unrelated data
+     or is inaccessible.
+     Distributed Memory: There is no shared memory in a standard
+     RPC; the ”stack” and ”heap” are physically separate.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   38 / 99
+Solutions to Passing References
+
+
+     Copy/Restore (Call-by-Value-Result):
+            Copy the entire referenced object to the server.
+            Server modifies it and sends the whole object back to overwrite the
+            client’s local copy.
+     Serialization: Flatten complex structures (linked lists, trees) into a
+     contiguous byte stream.
+     Remote Object References: Use a unique global ID that the server
+     can use to ”call back” the client (standard in Java RMI).
+     Restriction: Simply forbid passing pointers in the Interface Definition
+     Language (IDL).
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing        February 15, 2026   39 / 99
+Object References
+
+
+
+
+                    Figure 8: Passing an object by reference or by value.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)          Distributed Computing          February 15, 2026   40 / 99
+RPC-Based Application Support
+
+
+
+
+     RPC hides remote communication from applications
+     Caller and callee must:
+            Agree on message format
+            Follow the same calling protocol
+     Without a common protocol, RPC fails
+
+Key idea: RPC correctness depends on strict agreement between both
+sides.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   41 / 99
+Supporting RPC-Based Applications
+
+
+
+
+There are two main approaches:
+ 1 Stub generation
+
+            Developer specifies remote procedures
+            Client and server stubs are generated automatically
+  2   Language-level RPC support
+            RPC embedded in the programming language
+            Remote calls look like local calls
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing          February 15, 2026   42 / 99
+Stub Generation and Message Format
+
+
+
+
+Figure 9: (a) A function. (b) The corresponding message, and the order in which bytes
+and words are sent across the network.
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing         February 15, 2026   43 / 99
+Language-Based RPC
+
+
+
+
+     Remote Procedure Call can be embedded into a language
+     Simplifies distributed application development
+     Improves access transparency
+     Remote calls appear the same as local calls
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   44 / 99
+Example: Java Remote Method Invocation
+
+
+
+
+     Java embeds RPC as Remote Method Invocation (RMI)
+     A client can invoke methods on remote objects
+     Method calls may look local in the source code
+
+Result: High transparency in distributed systems.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   45 / 99
+Embedding RPCs in a Programming Language
+
+
+
+
+                                             Figure 11: (b) Embedding RPCs in a
+                                             language: a client
+
+
+
+
+Figure 10: (a) Embedding RPCs in a
+language: a server
+
+
+
+ Naveen Kumar (SVNIT, Surat)     Distributed Computing          February 15, 2026   46 / 99
+Variations on Remote Procedure Call
+
+
+
+     Traditional RPC uses strict request–reply
+     Client blocks until the server returns a reply
+     This can reduce efficiency in some situations
+
+Motivation for variations:
+     No result needs to be returned
+     Client should continue execution
+     Multiple RPCs should run in parallel
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)    Distributed Computing   February 15, 2026   47 / 99
+Asynchronous RPC
+
+     Client does not block waiting for the result
+     Server immediately sends an acknowledgment
+     Server executes the procedure locally afterward
+     Client continues execution after acknowledgment
+
+
+
+
+Figure 12: (a) The interaction between client and server in a traditional RPC. (b) The
+interaction using asynchronous RPC.
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing         February 15, 2026   48 / 99
+Deferred Synchronous and One-Way RPC
+Deferred Synchronous RPC
+     Client requires a result, but cannot wait
+     Client sends request and waits only for acceptance
+     Server processes request asynchronously
+     Result is returned later via a callback
+
+
+
+
+         Figure 13: A client and server interacting through asynchronous RPCs.
+One-Way RPC
+    Client does not require a result
+    Client sends request and continues immediately
+    No acknowledgment and no callback
+    Delivery and execution are not guaranteed
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing         February 15, 2026   49 / 99
+Multicast RPC
+
+     Executes multiple RPCs simultaneously
+     Client sends one request to a group of servers
+     Servers process the request independently
+     Processing occurs in parallel
+
+
+
+
+                         Figure 14: The principle of a multicast RPC.
+
+
+ Naveen Kumar (SVNIT, Surat)           Distributed Computing            February 15, 2026   50 / 99
+Multicast RPC: Handling Responses
+
+
+
+     Client may wait for:
+            First response (fault tolerance)
+            Majority of responses
+            All responses (result merging)
+     Servers may be replicated:
+            For fault tolerance
+            For parallel computation
+     Replication can be hidden by client-side stubs
+
+Note: Application developer must specify the purpose of multicast RPC.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing   February 15, 2026   51 / 99
+Example: DCE RPC
+
+
+
+     Distributed Computing Environment (DCE)
+     Developed by OSF (now The Open Group)
+     Widely used as middleware for RPC-based systems
+     Basis for:
+            Microsoft DCOM: Enables object-based remote method invocation
+            across Windows machines using RPC.
+            Samba: Allow non-Windows systems to access Windows file and print
+            services.
+     Representative of traditional RPC systems
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)     Distributed Computing     February 15, 2026   52 / 99
+DCE Model and Purpose
+
+
+
+
+     Middleware layer between operating system and applications
+     Originally designed for Unix, later ported to major OSs
+     Existing (non-distributed) applications remain unaffected
+     Client–server programming model
+     All communication performed via RPC
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing     February 15, 2026   53 / 99
+Goals and Transparency of DCE RPC
+
+
+
+     Remote service accessed using a local procedure call
+     Enables reuse of large volumes of existing code
+     RPC system hides:
+            Server location and discovery
+            Binding and communication setup
+            Message transport, fragmentation, and reassembly
+            Data representation and byte ordering differences
+     Supports heterogeneous languages, platforms, and protocols
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing         February 15, 2026   54 / 99
+Interface Definition and Stub Generation
+
+
+
+     Interfaces specified using Interface Definition Language (IDL)
+     IDL defines procedure syntax, not semantics
+     Shared global variables between client and server are not allowed
+     Each interface has a globally unique identifier (UUID)
+            128-bit value generated using uuidgen
+            Encodes creation time and location
+     IDL compiler generates:
+            Header file
+            Client stub
+            Server stub
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)     Distributed Computing   February 15, 2026   55 / 99
+DCE RPC Development Steps
+
+
+
+
+         Figure 15: The steps in writing a client and a server in DCE RPC.
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing       February 15, 2026   56 / 99
+DCE RPC: Interface and Stub Generation
+
+
+DCE RPC starts with defining a remote interface. A UUID is generated
+to uniquely identify this interface.
+The programmer writes an IDL file. It lists remote procedures and their
+parameters. Only syntax is defined, not behavior.
+The IDL compiler processes the IDL file. It generates:
+     A shared header file
+     A client stub
+     A server stub
+
+These stubs hide all communication details.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing     February 15, 2026   57 / 99
+DCE RPC: Building and Running an RPC
+
+
+
+Client code is compiled with the client stub. Server code is compiled with
+the server stub. Both include the same header file.
+Object files are linked with the RPC runtime library. This produces the
+client and server binaries.
+At run time, the client calls a local procedure. The client stub sends a
+request to the server. The server stub calls the real server code. The result
+is returned transparently.
+RPC makes remote calls look local.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing      February 15, 2026   58 / 99
+Binding a Client to a Server
+     Server startup:
+            Requests a port from the OS
+            Registers (server, port) with the DCE daemon
+            Registers a logical name with the directory service
+     Client binding:
+            Queries directory service using server name
+            Contacts DCE daemon to obtain server port
+     Binding performed once and reused for subsequent RPCs
+
+
+
+
+                          Figure 16: Client-to-server binding in DCE.
+
+ Naveen Kumar (SVNIT, Surat)           Distributed Computing            February 15, 2026   59 / 99
+Performing an RPC and Semantics
+
+
+
+
+     Client stub marshals parameters
+     Runtime system transmits request using chosen protocol
+     Server stub unmarshals parameters and invokes server procedure
+     Reply returned along the reverse path
+     Secure RPC supported for confidentiality and integrity
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing    February 15, 2026   60 / 99
+Table of Contents
+
+
+
+1   Introduction
+
+
+2   Foundations
+
+
+3   Remote Procedure Call
+
+
+4   Message Oriented Communication
+
+
+5   Summary
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   61 / 99
+Why Message-Oriented Communication?
+
+
+     RPC/RMI improve access transparency by hiding communication
+     However, RPC implicitly assumes:
+            Receiver is executing
+            Client blocks until reply (synchronous)
+
+     In real distributed systems, these assumptions may not hold
+            Components may be temporarily unavailable
+            Blocking reduces scalability
+
+     Message-oriented systems adopt asynchronous communication
+            Sender proceeds without waiting
+            Looser coupling between sender and receiver
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing   February 15, 2026   62 / 99
+Roadmap of Messaging Solutions
+To address the limitations of RPC, we categorize message-oriented systems into
+two strategies:
+
+
+    Type             Meaning                  Solves ”Block-       Solves ”Avail-
+                                              ing”?                ability”?
+    Transient        Data is discarded if     Yes.      Sender     No.      Receiver
+                     it cannot be deliv-      proceeds without     must be active to
+                     ered immediately.        waiting for a re-    accept the data.
+                                              ply.
+    Persistent Data is stored in a            Yes. Decouples       Yes. Messages
+               queue for as long as           the sender from      are stored even if
+               it takes to deliver.           the     receiver’s   the receiver is of-
+                                              timeline.            fline.
+
+
+     Transient Examples: Sockets, ZeroMQ, MPI.
+     Persistent Examples: IBM WebSphere MQ, AMQP (RabbitMQ).
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing           February 15, 2026    63 / 99
+  Sockets and TCP Operations
+
+
+                                                  Client:
+                                                        socket() → connect()
+Socket Basics                                           Data exchange
+     Socket: standardized communication end
+     point over TCP/UDP.
+     Provides transport abstraction with send()
+     / recv() interface.
+
+TCP Communication Workflow
+Server:
+     socket() → bind()
+     listen() → accept()
+                                                  Figure 17: TCP socket operations and their
+                                                  semantics
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)         Distributed Computing            February 15, 2026   64 / 99
+Socket Communication Pattern
+
+
+
+
+                 Figure 18: Connection-oriented socket communication
+
+
+Socket Client–Server Example
+     Server waits for incoming connections
+     Client initiates connection
+     Messages exchanged over TCP
+     Connection closed after communication
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing      February 15, 2026   65 / 99
+Socket Client Server Code
+
+
+
+
+                          Figure 19: Simple socket-based server code
+
+
+
+
+                          Figure 20: Simple socket-based client code
+ Naveen Kumar (SVNIT, Surat)           Distributed Computing           February 15, 2026   66 / 99
+Stubs as Global References
+
+
+
+
+     A stub hides message passing from applications
+     In advanced messaging, a stub itself can be:
+            Marshaled
+            Transmitted
+            Used by another process
+
+     The stub now acts as a global reference
+     Method calls on the stub transparently invoke the server
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)     Distributed Computing   February 15, 2026   67 / 99
+Client-Side Stub: DBClient
+
+    DBClient is a client-side stub
+    Represents a remote list
+    managed by the server
+
+    Provides high-level operations:
+          create
+          getValue
+          appendData
+
+    All operations internally call
+    sendrecv
+    sendrecv:
+         Opens a socket
+         Sends a marshaled request
+         Receives and unmarshals
+         the reply
+
+
+
+                                             Figure 21: (a) Client-side stub: DBClient
+
+ Naveen Kumar (SVNIT, Surat)          Distributed Computing          February 15, 2026   68 / 99
+Server-Side List Server
+    Server manages multiple lists
+    Lists stored in setOfLists indexed by list
+    IDs
+
+    Server workflow:
+          Accept incoming socket connection
+          Unmarshal request
+          Execute operation locally
+          Marshal and send result
+
+    Uses standard socket pattern: socket 
+    bind  listen  accept
+
+
+
+
+                                                       Figure 22: (b)Server-side list server
+ Naveen Kumar (SVNIT, Surat)          Distributed Computing              February 15, 2026     69 / 99
+Client for Passing Stubs
+
+
+    This Client is an
+    application-level communicator
+    It is not the list stub
+
+    Responsibilities:
+         Listen for incoming
+         connections
+         Send arbitrary objects to
+         other clients
+
+    Uses marshaling to transmit:
+         Data
+         Stubs (such as DBClient)
+
+                                        Figure 23: (c) Client for sending/receiving stubs
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)         Distributed Computing          February 15, 2026   70 / 99
+Passing Stubs as Global References
+
+
+    Client 1:
+          Creates a list on the
+          server
+          Appends data
+          Sends the DBClient stub
+          to Client 2
+
+    Client 2:
+          Receives and unmarshals
+          the stub
+          Uses it like a local object
+          Appends data to the
+          same remote list                        Figure 24: Passing stubs as references
+
+    Both clients operate on the
+    same remote object
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)            Distributed Computing            February 15, 2026   71 / 99
+Limitations of Basic Sockets
+
+
+
+     Low-level & Error-prone: Developers must manually manage IP addresses, ports,
+     and connection states.
+     Byte-Stream vs. Message: No built-in message boundaries; the application must
+     manually track where data ends.
+     Manual Marshaling: Requires explicit ”pickling” and ”unpickling” for every data
+     exchange.
+     Rigid Topology: Limited support for advanced communication patterns like
+     Multicasting or Load Balancing.
+     Tight Coupling: Blocking calls (accept, recv) reduce overall system scalability.
+     Brittleness: If a server is unavailable during connect(), the system often fails
+     without built-in recovery.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing          February 15, 2026    72 / 99
+ZeroMQ: High-Level Messaging
+
+
+
+     Smart Abstraction: Replaces manual byte-stream handling with a message-based
+     model.
+     Asynchronous by Default: Senders proceed immediately; ZeroMQ handles
+     background queuing and delivery.
+     Managed Connections: Automatically handles bind, connect, and reconnect
+     logic internally.
+     Decoupled Execution: Communication can start even if the recipient process is
+     not yet running.
+     Native Patterns: Built-in support for Many-to-One and One-to-Many
+     messaging topologies.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing        February 15, 2026   73 / 99
+ZeroMQ Communication Patterns
+
+
+
+
+     Request–Reply: Standard client–server communication with strict
+     alternation, similar to RPC.
+     Publish–Subscribe: One-to-many distribution where subscribers
+     receive messages based on specific tags.
+     Pipeline (Push–Pull): Parallel task distribution where workers pull
+     workloads from one or more producers.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing    February 15, 2026   74 / 99
+ZeroMQ: Request–Reply Pattern
+
+The Request–Reply pattern is the most basic messaging model in ZeroMQ, designed to
+mimic traditional client–server interactions.
+
+     Socket Roles:
+            REQ (Request): Used by the Client to initiate a conversation by sending a
+            message.
+            REP (Reply): Used by the Server to receive requests and send back specific
+            responses.
+     Strict Alternation: ZeroMQ enforces a lock-step protocol where a send must be
+     followed by a recv (and vice versa); out-of-order calls will result in an error.
+     RPC Semantics: Like a Remote Procedure Call, the client blocks after sending
+     until the server provides a response.
+     Dynamic Pairing: Unlike raw sockets, a REP socket can handle multiple REQ
+     clients automatically, returning each reply to the correct requester.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing        February 15, 2026   75 / 99
+ZeroMQ: Request–Reply Code
+    Server Setup: Creates a REP socket and binds
+    to both p1 and p2 to listen on multiple ports
+    simultaneously.
+    Server Loop: Blocks at recv() until a
+    message arrives from any bound port.
+    Client Initiation: Creates a REQ socket,
+    connects to p1, and sends "Hello world 1".
+    Processing:
+           Server receives data → checks for
+           "STOP".
+           If no "STOP", it appends "*" and                   Figure 25: (a) ZeroMQ request–reply server
+           sends it back to the specific client.
+    Termination: Client receives the reply, then
+    sends "STOP" to break the server’s infinite
+    loop.
+
+
+
+
+                                                              Figure 26: (b) ZeroMQ request–reply client
+
+ Naveen Kumar (SVNIT, Surat)          Distributed Computing                    February 15, 2026           76 / 99
+ZeroMQ: Publish–Subscribe Pattern
+
+The Publish–Subscribe pattern enables one-to-many communication, decoupling the
+sender from the receivers.
+
+     Socket Roles:
+            PUB (Publisher): Broadcasts messages to all connected endpoints
+            simultaneously.
+            SUB (Subscriber): Connects to publishers to listen for specific data streams.
+     Topic-Based Filtering: Subscribers use prefixes (tags) to filter incoming traffic;
+     messages not matching the tag are discarded by the middleware before reaching
+     the application.
+     Loose Coupling:
+            Space: Publishers don’t know who or how many subscribers exist.
+            Time: New subscribers can join or leave the network at any time.
+     Transient Nature: Messages are not queued for offline subscribers; if no one is
+     listening when a message is published, it is lost forever.
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing          February 15, 2026   77 / 99
+Publish–Subscribe Code (ZeroMQ)
+This pattern implements a one-to-many broadcast system with automated message filtering.
+                                                                   +
+    Publisher Logic (Top):
+           Setup: Creates a PUB socket and binds to a
+           fixed port.
+           Tagging: Every message is prefixed with the
+           tag "TIME ".
+           Broadcast: Periodically pushes the current
+           system time to all connected clients.
+
+    Subscriber Logic (Bottom):
+            Setup: Creates a SUB socket and connects to                 Figure 27: (a) Publisher code (PUB socket)
+            the publisher’s address.
+            The Filter: setsockopt is critical; it tells
+            ZeroMQ to only accept messages starting with
+            the "TIME" prefix.
+            Passive Receipt: Only matching messages
+            reach the recv() call; others are dropped.
+    Middleware Filtering—The ZeroMQ library discards
+    non-matching messages before they are delivered to the
+    application, saving CPU cycles and memory.
+
+
+
+
+                                                                    Figure 28: (b) Subscriber code (SUB socket)
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)                    Distributed Computing                       February 15, 2026        78 / 99
+Pipeline (Push–Pull) Pattern
+
+
+
+     Dynamic Task Distribution: A producer (Farmer) generates work
+     and pushes it into the pipeline.
+     On-Demand Pulling: Workers pull tasks only when they are idle,
+     preventing slow workers from becoming bottlenecks.
+     Automatic Load Balancing: ZeroMQ ensures the first available
+     worker receives the next task, distributing load fairly across the pool.
+     Task Parallelism: Ideal for distributed workloads where independent
+     tasks can be processed simultaneously across multiple nodes.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)    Distributed Computing      February 15, 2026   79 / 99
+Pipeline Code (ZeroMQ)
+
+    Farmer Logic (PUSH):
+         Creates a PUSH socket and binds to
+         an address.
+         Workload Generation: Uses
+         random.randint to simulate tasks
+         with varying complexity.
+         Queueing: Tasks are queued at the
+         sender side until a worker is ready.
+
+                                                          Figure 29: Farmer: Generates & Pushes Tasks
+    Worker Logic (PULL):
+         Creates a PULL socket and connects
+         to multiple farmers (p1, p2).
+         Fair Distribution: Automatically
+         receives work from the first
+         available source.
+         Simulation: Uses time.sleep
+         proportional to the workload to
+         mimic real processing time.
+
+    Key Semantics: Decouples work
+                                                              Figure 30: Worker: Pulls & Processes Tasks
+    generation from work execution.
+
+ Naveen Kumar (SVNIT, Surat)          Distributed Computing                       February 15, 2026        80 / 99
+MPI: Parallel Computing Model
+MPI provides a high-level, hardware-independent standard for tightly-coupled
+parallel applications.
+
+     Why MPI?: Sockets are too low-level; MPI is optimized for specialized
+     interconnects and performance over general TCP/IP.
+     Addressing: Uses (groupID, processID) instead of IP addresses; failures
+     are considered fatal.
+     Flexible Semantics: Supports varying performance needs:
+            Blocking: MPI send / MPI recv (wait for buffer/data).
+            Non-blocking: MPI isend / MPI irecv (immediate return).
+            Synchronous: MPI ssend (wait until transmission starts).
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)         Distributed Computing             February 15, 2026   81 / 99
+Persistent Messaging: The Queuing Model
+
+
+Queuing systems enable communication even if parties are temporarily inactive.
+
+    Core Concept: Apps communicate via
+    Queue Managers using logical names.
+    Time-Decoupled: Senders/receivers can
+    be active/passive in 4 combinations.
+
+    Simple Interface:
+           put: Non-blocking append to queue.
+           get: Block until queue is non-empty.
+           poll/notify: Non-blocking check or handler.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)                  Distributed Computing   February 15, 2026   82 / 99
+Message Brokers and Integration
+
+
+Message-oriented middleware acts as the ”glue” for heterogeneous distributed
+systems.
+
+    Message Brokers: Application-level gateways
+    that convert message formats and semantics.
+    Architecture: Uses a queuing layer and
+    rules-based ”plugins” for routing.
+    Naming: Logical queue names are mapped to
+    physical network addresses.
+    Applications: Enterprise integration, workflow
+    systems, and batch processing.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)          Distributed Computing   February 15, 2026   83 / 99
+Example: IBM WebSphere MQ
+
+
+
+
+     Enterprise message-queuing system by IBM
+     Formerly known as MQSeries
+     Now part of IBM WebSphere
+     Widely used in enterprise integration
+     Illustrates practical message-queuing systems
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   84 / 99
+WebSphere MQ: Architecture Overview
+     Messages stored and forwarded via queues
+     Queues managed by queue managers
+     Queue manager responsibilities:
+            Remove messages from send queues
+            Forward messages to other queue managers
+            Receive messages and store them in input queues
+     Supports large messages (MBs) and large queues (GBs)
+
+
+
+
+        Figure 31: General organization of IBM’s message-queuing system.
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing       February 15, 2026   85 / 99
+Message Channels and MCAs
+
+
+     Queue managers connected by message channels
+     Channel = unidirectional, reliable connection
+     Each channel endpoint managed by a:
+            Sending MCA
+            Receiving MCA
+     Sending MCA:
+            Fetches messages from send queue
+            Wraps and transmits them
+     Receiving MCA:
+            Unwraps messages
+            Stores them in destination queue
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   86 / 99
+Channel Management and Attributes
+
+     Channels active only when both MCAs are running
+     MCA startup options:
+            Manual startup
+            Triggered by first message arrival
+            Remote startup via control message
+     Channels stop automatically after inactivity
+     Channels configured using attributes
+
+
+
+
+       Figure 32: Some attributes associated with message channel agents.
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing     February 15, 2026   87 / 99
+Message Routing, Aliases, and MQI
+     Each message carries:
+           Destination queue manager name
+           Destination queue name
+     Routing via local send queues
+     Queue managers use routing tables (aliases)
+     Aliases decouple applications from physical destinations
+     Message may traverse multiple queue managers
+
+
+
+
+Figure 33: The general organization of an MQ queuing network using routing tables and
+aliases.
+  Naveen Kumar (SVNIT, Surat)       Distributed Computing       February 15, 2026  88 / 99
+MQ Programming Interface and Management
+
+     Applications use the Message Queue Interface (MQI)
+     Core operations:
+          MQOPEN, MQCLOSE
+          MQPUT, MQGET
+     Messages removed by priority, then FIFO
+     Supports notifications on message arrival
+     Persistence is per-message, not per-queue
+     Overlay network managed manually
+
+
+
+
+            Figure 34: Operations available in the message-queuing interface.
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)        Distributed Computing          February 15, 2026   89 / 99
+Example: Advanced Message Queuing Protocol (AMQP)
+
+
+
+
+     Standardized message-queuing protocol
+     Designed to overcome proprietary MQ solutions
+     Developed by an industry working group (since 2006)
+     Current standard: AMQP 1.0
+     Popular implementations:
+            RabbitMQ
+            Apache Qpid
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing   February 15, 2026   90 / 99
+Motivation and Scope of AMQP
+
+
+
+
+     Message-queuing systems are largely proprietary
+     Interoperability between vendors is difficult
+     AMQP aims to provide:
+            Open standard
+            Vendor-independent messaging
+     Multiple AMQP versions coexist
+     Pre-1.0 and 1.0 versions are incompatible
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)     Distributed Computing   February 15, 2026   91 / 99
+AMQP Architecture and Components
+     Three conceptual layers:
+          Messaging service
+          Messaging protocol
+          Messaging interface
+     Core components:
+          Applications
+          Queue managers
+          Queues
+     Applications interact via an AMQP stub
+
+
+
+
+                 Figure 35: An overview of a single-server AMQP instance.
+ Naveen Kumar (SVNIT, Surat)         Distributed Computing         February 15, 2026   92 / 99
+AMQP Communication Model
+
+
+
+
+     Communication built hierarchically:
+            Connection: long-lived, TCP-based
+            Channel: lightweight, one-way
+            Session: bidirectional (pair of channels)
+            Link: message transfer endpoint
+     Multiple channels multiplexed over one TCP connection
+     Flow control implemented using credits
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing   February 15, 2026   93 / 99
+Reliable Message Transfer in AMQP
+
+
+
+
+     Message transfer proceeds in three phases:
+            Message sent and marked unsettled
+            Receiver processes message and reports status
+            Sender and receiver mark message as settled
+     Supports true end-to-end reliability
+     Applications can delay settlement if needed
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)      Distributed Computing     February 15, 2026   94 / 99
+Messaging Semantics and Persistence
+
+
+     Messaging entities:
+            Producers
+            Consumers
+            Queues
+     Receiver may accept or reject messages
+     Supports fragmentation and reassembly
+     Persistence achieved through:
+            Durable messages
+            Durable nodes
+     AMQP defines messaging, not higher-level patterns
+     Overlay routing managed externally
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing     February 15, 2026   95 / 99
+Table of Contents
+
+
+
+1   Introduction
+
+
+2   Foundations
+
+
+3   Remote Procedure Call
+
+
+4   Message Oriented Communication
+
+
+5   Summary
+
+
+
+
+    Naveen Kumar (SVNIT, Surat)      Distributed Computing   February 15, 2026   96 / 99
+Summary: Communication in Distributed Systems
+
+
+
+
+     Communication is fundamental to all distributed systems
+     Transport-layer messaging offers low-level send/receive primitives
+     Middleware raises abstraction to simplify interprocess communication
+     Goal: make communication easier, safer, and less error-prone
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)   Distributed Computing     February 15, 2026   97 / 99
+Summary: RPC and Message-Oriented Communication
+
+
+
+     Remote Procedure Call (RPC):
+            Service implemented as server-side procedure
+            Client sees only procedure signature
+            Client stub marshals parameters into messages
+            Server executes procedure and returns results
+            Client stub unmarshals reply transparently
+     RPC provides synchronous communication:
+            Client blocks until reply arrives
+            Relaxed variants exist, but synchrony remains limiting
+     Message-oriented models often better suit loosely coupled systems
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing       February 15, 2026   98 / 99
+Summary: Messaging Models and Multicasting
+
+
+     Message-oriented communication dimensions:
+            Persistent vs. transient messaging
+            Asynchronous vs. synchronous communication
+     Message-oriented middleware:
+            Typically persistent and asynchronous
+            Sender and receiver need not be active simultaneously
+            Widely used for large-scale system integration
+     Multicast communication disseminates data to many receivers:
+            Tree-based multicast: efficient but failure-sensitive
+            Flooding: robust but resource-intensive
+            Probabilistic flooding: balances cost and reliability
+            Epidemic (gossip) protocols: simple, scalable, robust
+
+
+
+
+ Naveen Kumar (SVNIT, Surat)       Distributed Computing        February 15, 2026   99 / 99
+

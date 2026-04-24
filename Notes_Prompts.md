@@ -8,6 +8,29 @@ Accordingly update `#file:README.md` and write as a student would for their own 
 3. Code understanding/explanation
 4. Viva prep
 ```
+
+**Lab Prompts:**
+1. Rock Paper Scissors Simulation:
+```md
+You will act as an expert Python developer and simulation designer. I have created a "Rock Paper Scissors" robot arm simulation in Python, and I want you to significantly improve and refine it.
+
+Your goal is to enhance both the game logic and the visual simulation of the robot hand movement. The current implementation relies on predefined static states, but I want the robot hand to appear as if it is actually moving fluidly between positions (e.g., transitioning between rock, paper, and scissors with animated motion rather than instant changes).
+
+Specifically, you should:
+
+- Analyze my existing code and identify weaknesses or limitations in structure, logic, and design.
+- Improve the game logic to make it more robust and well-structured.
+- Replace or redesign the visual system so the robot hand transitions smoothly and realistically between gestures.
+- Suggest or implement appropriate Python libraries (e.g., pygame, matplotlib, or others) if they improve the simulation.
+- Rewrite any parts of the code where necessary, not just minor edits.
+
+When responding:
+
+Provide me with the updated code first, if you cannot send the whole code in one go, break it into parts and send them one by one when i say continue after which,
+- explain the key issues in my current implementation.
+- describe your design improvements
+```
+
 **NotebookLM Prompts:**
 1. General Subject tutor:
 ```md

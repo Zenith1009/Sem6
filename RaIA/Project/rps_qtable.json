@@ -1,0 +1,84 @@
+{
+  "initial": {
+    "rock": -0.3025,
+    "paper": 0.0634,
+    "scissors": -0.4859
+  },
+  "rock,paper,scissors": {
+    "rock": 0.0,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "paper,scissors,paper": {
+    "rock": 0.081,
+    "paper": 0.3,
+    "scissors": 0.0
+  },
+  "scissors,paper,rock": {
+    "rock": 0.3,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "paper,rock,scissors": {
+    "rock": 0.0,
+    "paper": 0.591,
+    "scissors": 0.0
+  },
+  "rock,scissors,rock": {
+    "rock": 0.0,
+    "paper": 0.591,
+    "scissors": -0.219
+  },
+  "scissors,rock,rock": {
+    "rock": 0.21,
+    "paper": 0.0,
+    "scissors": 0.591
+  },
+  "rock,rock,paper": {
+    "rock": 0.3,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "rock,scissors,scissors": {
+    "rock": 0.0,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "rock,rock,scissors": {
+    "rock": 0.0,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "rock,scissors,paper": {
+    "rock": 0.0,
+    "paper": -0.3,
+    "scissors": -0.219
+  },
+  "scissors,paper,scissors": {
+    "rock": -0.219,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "rock,rock,rock": {
+    "rock": 0.3,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "paper,paper,scissors": {
+    "rock": 0.0,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "paper,scissors,rock": {
+    "rock": 0.081,
+    "paper": 0.0,
+    "scissors": 0.0
+  },
+  "__stats__": {
+    "total_rounds": 42,
+    "wins": 17,
+    "losses": 13,
+    "draws": 12,
+    "epsilon": 0.2431
+  }
+}

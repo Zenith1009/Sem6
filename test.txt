@@ -1,0 +1,122 @@
+Distributed Computing, 2025-26 Even, Quiz
+
+Questios:
+1. In a structured peer-to-peer system like Chord, if a node has identifier $p$ and the finger table is denoted as $FT_p$, how is the $i$-th entry $FT_p[i]$ defined
+A. $succ(p + 2^i)$
+B. $succ(p + 2^{i-1})$
+C. $pred(p + 2^{i-1})$
+D. $succ(p - 2^{i-1})$
+
+2. In a hierarchical location service, how does a lookup request progress if the current directory node does not have a location record for the entity?
+A. It is broadcast to all neighboring nodes
+B. It is forwarded to the parent node
+C. It is sent back to the client as a "not found" error
+D. It is routed to the root node immediately via a shortcut
+
+3. In the Apache Web server, what is a "hook"?
+A. A low-level system call to the APR
+B. A placeholder for a specific group of functions executed in a predetermined order
+C. A method to redirect HTTP requests to a separate worker process
+D. A unique identifier for a dynamically loaded module
+
+4. Which type of virtualization implements the VMM directly on top of the underlying hardware?
+A. Hosted virtual machine monitor
+B. Process virtual machine
+C. Bare-metal hypervisor
+D. Library-level emulator
+
+5. What is a major operational challenge in implementing the Token Ring mutual exclusion algorithm?
+A. High network traffic during periods when no processes want to enter the critical section.
+B. Detecting the loss of the token and accurately regenerating it without duplicating it.
+C. Ensuring that token-passing messages are delivered in a totally ordered multicast.
+D. Preventing the starvation of processes that are located at the end of the logical ring.
+
+6. In client-centric consistency, the "Monotonic Reads" model guarantees that:
+A. If a client reads the value of $x$, any successive read will return that same value or a more recent one
+B. A write operation by a process on $x$ is completed before any successive read on $x$ by that process
+C. All replicas are updated simultaneously within a bounded numerical deviation
+D. Updates are propagated in the order they were initiated by the client
+
+7. Which architectural style is characterized by "temporal coupling" and "referential decoupling"?
+A. Layered architectures
+B. Resource-centered architecturesEvent
+C. Object-based architectures
+D. Event-based (publish-subscribe) architectures
+
+8. Decentralized implementations of attribute-based naming often map multidimensional attribute spaces to a 1D index using:
+A. Distributed Hash Tables (DHT)
+B. Hierarchical Search Trees
+C. Space-filling curves (e.g., Hilbert curve)
+D. Naming graphs with context nodes
+
+9. In a multithreaded server following the dispatcher/worker model, what happens if a worker thread performs a blocking read on the local file system?
+A. The entire process blocks until data is fetched
+B. The CPU remains idle until the disk I/O completes
+C. The thread is suspended, and another thread (like the dispatcher) can be selected
+D. The kernel flushes the TLB and switches the process context
+
+10. In the Ricart–Agrawala distributed mutual exclusion algorithm, what determines which process enters the critical section when two request it simultaneously?
+A. The process with the highest numerical identifier.
+B. The process that receives a token first over the network.
+C. The process with the lowest Lamport timestamp on its request message.
+D. The process physically closest to the centralized coordinator.
+
+11. According to the Bully election algorithm, what happens when a process P notices that the current coordinator is dead?
+A. P immediately becomes the new coordinator and broadcasts a victory message to all nodes.
+B. P sends an ELECTION message to all participating processes with lower numerical identifiers.
+C. P sends an ELECTION message to all participating processes with higher numerical identifiers.
+D. P passes an ELECTION token around the predefined logical ring.
+
+12. Which consistency model ensures that all write operations are seen by everyone in the same order?
+A. Causal consistency
+B. Sequential consistency
+C. Weak consistency
+D. Eventual consistency
+
+13. In the Berkeley algorithm for clock synchronization, how is the network time adjusted?
+A. The time daemon instructs all machines to advance their clocks to the highest observed time in the network.
+B. The time daemon calculates an average time and tells each machine the specific offset by which it should adjust its current time.
+C. Each machine actively polls an external UTC time server and adjusts its own clock independently.
+D. The time daemon broadcasts the precise time, and all machines immediately overwrite their current time.
+
+14. Which property is NOT required for a pure identifier?
+A. An identifier refers to at most one entity
+B. An identifier is never assigned to another entity
+C. Each entity is referred to by at most one identifier
+D. An identifier must contain the network address of the entity
+
+15. What is the primary advantage of Vector Clocks over standard Lamport Clocks?
+A. They require significantly less storage overhead per message.
+B. They allow a system to definitively determine if two events are causally related or concurrent.
+C. They can synchronize physical clocks across a wide area network with high precision.
+D. They eliminate the need for a central coordinator in mutual exclusion algorithms.
+
+16. "Continuous consistency" allows for deviation in which three dimensions?
+A. Numerical, Staleness, and Ordering
+B. Availability, Reliability, and Performance
+C. Access, Location, and Replication
+D. Read, Write, and Commit
+
+17. What is a primary drawback of "content-blind" caching in Web-based CDNs?
+A. It requires complex attribute-based lookup algorithms
+B. It cannot handle embedded documents like images
+C. It can be wasteful in terms of storage due to redundant data
+D. It violates the "copy-before-use" principle
+
+18. In the context of middleware organization, what is the primary purpose of an interceptor?
+A. To provide a high-level language for defining service interfaces
+B. To transform a legacy component's native interface into a standard one
+C. To break the usual flow of control and execute application-specific code
+D. To resolve systemwide unique identifiers to local object references
+
+19. A "broker" in an enterprise application integration scenario reduces the number of required wrappers from:
+A. $O(N^2)$ to $O(N)$
+B. $O(N)$ to $O(log N)$
+C. $O(2N)$ to $O(N)$
+D. $O(N^2)$ to $O(N log N)$
+
+20. Which of the following is true about Lamport's logical clocks?
+A. They guarantee that if C(a) < C(b), then event a causally precedes event b.
+B. They can determine if two events are concurrent simply by comparing their timestamps.
+C. They guarantee that if event a causally precedes event b, then C(a) < C(b).
+D. They require highly synchronized physical clocks to function correctly.
